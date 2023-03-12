@@ -14,9 +14,8 @@ class App extends React.Component {
 
   subtractBudget() {
     const amount = document.getElementById("amount")
-    this.setState(state => {
-      return month: (this.state.month - amount)
-    })
+    const total = this.state.month - amount
+    this.setState({month: total})
   }
   render() {
     return (
