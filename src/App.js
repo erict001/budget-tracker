@@ -5,17 +5,26 @@ import React from 'react';
 class App extends React.Component {
   constructor(props) {
     super(props)
-    this.subtractBudget = this.subtractBudget.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.returnBudget = this.returnBudget(this)
     this.state = {
+      input: 0,
       saved: 0,
       month: 500
     }
   }
 
-  subtractBudget() {
-    const amount = document.getElementById("amount")
-    const total = this.state.month - amount
-    this.setState({month: total})
+  handleChange(event) {
+    event.preventDefault()
+    this.setState({
+      input: event.target.value
+    })
+  }
+
+  returnBudget() {
+    this.setState(state => ({
+      month: (state.month - state.input)
+    }))
   }
   render() {
     return (
@@ -28,11 +37,12 @@ class App extends React.Component {
                 <h3>Monthly Budget</h3>
               </div>
               <div>
-                <form style={{display: "flex", flexDirection: "column"}} onSubmit={this.subtractBudget}>
+                <form style={{ display: "flex", flexDirection: "column" }} onChange={this.handleChange} onSubmit={this.returnBudget}>
                   <input id="amount" placeholder='Amount'></input>
                   <input placeholder="Expense"></input>
-                  <button type="submit">Add Expense</button>
+                  <button type="submit" >Add Expense</button>
                 </form>
+                <h1>{this.state.input}</h1>
               </div>
             </div>
             <div>
