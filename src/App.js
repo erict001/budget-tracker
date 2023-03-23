@@ -1,59 +1,60 @@
 import logo from './logo.svg';
 import './App.css';
-import React from 'react';
+import React, { useState } from 'react';
 
-class App extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleChange = this.handleChange.bind(this)
-    this.returnBudget = this.returnBudget(this)
-    this.state = {
-      input: 0,
-      saved: 0,
-      month: 500
+export default function App() {
+  // set the monthly budget to 500
+  const [monthly, setMonthly] = useState(500);
+  // allow input to take the value of input and set to 0
+  const [input, setInput] = useState();
+
+
+  const handleChange = ({target}) => {
+    const inputValue = target.value
+    setInput(inputValue)
+    console.log(inputValue)
+  }
+
+  const returnBudget = (e) => {
+    e.preventDefault()
+    return setMonthly(monthly - input)
+  }
+
+  const styles = {
+    mainDiv: {
+      display: 'flex', 
+      justifyContent: 'space-evenly', 
+      width: "100vw"
+    },
+    form: {
+      display: "flex", 
+      flexDirection: "column"
     }
   }
 
-  handleChange(event) {
-    event.preventDefault()
-    this.setState({
-      input: event.target.value
-    })
-  }
-
-  returnBudget() {
-    this.setState(state => ({
-      month: (state.month - state.input)
-    }))
-  }
-  render() {
     return (
       <div className="App">
         <header className="App-header">
-          <div style={{ display: 'flex', justifyContent: 'space-evenly', width: "100vw" }}>
+          <div style={styles.mainDiv}>
             <div>
               <div>
-                <h1>{this.state.month}</h1>
-                <h3>Monthly Budget</h3>
+                <h1>Monthly Budget</h1>
+                <h2>{monthly}</h2>
               </div>
               <div>
-                <form style={{ display: "flex", flexDirection: "column" }} onChange={this.handleChange} onSubmit={this.returnBudget}>
+                <form style={styles.form} onChange={handleChange} onSubmit={returnBudget}>
                   <input id="amount" placeholder='Amount'></input>
                   <input placeholder="Expense"></input>
-                  <button type="submit" >Add Expense</button>
+                  <button type="submit"  >Add Expense</button>
                 </form>
-                <h1>{this.state.input}</h1>
               </div>
             </div>
             <div>
-              <h1>{this.state.saved}</h1>
-              <h3>Amount Saved</h3>
+              <h1>Amount Saved</h1>
+              <h3>{input}</h3>
             </div>
           </div>
         </header>
       </div>
     );
   }
-}
-
-export default App;
