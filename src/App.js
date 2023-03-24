@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function App() {
   // set the monthly budget to 500
@@ -8,6 +8,10 @@ export default function App() {
   // allow input to take the value of input and set to 0
   const [input, setInput] = useState();
   const [expense, setExpense] = useState(" ");
+
+  useEffect(() => {
+    localStorage.setItem("budget", monthly)
+}, [monthly]);
 
   const handleChange = ({ target }) => {
     const inputValue = target.value
@@ -43,19 +47,26 @@ export default function App() {
             </div>
             <div>
               <form style={styles.form} onSubmit={returnBudget}>
-                <input id="amount" placeholder='Amount' onChange={handleChange}></input>
-                <input placeholder="Expense" onChange={handleChange}></input>
+                <input
+                  id="amount"
+                  placeholder='Amount'
+                  onChange={handleChange}>
+                </input>
+                <input
+                  placeholder="Expense"
+                  onChange={handleChange}>
+                </input>
                 <input
                   onChange={handleChange}
                   type="date"
                   name="bday"
                 />
-                <button type="submit"  >Add Expense</button>
+                <button type="submit">Add Expense</button>
               </form>
             </div>
           </div>
           <div>
-            <h1>Amount Saved</h1>
+            <h1>Amount Spent</h1>
             <h3>{input}</h3>
           </div>
         </div>
